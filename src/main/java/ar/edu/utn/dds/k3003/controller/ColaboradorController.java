@@ -83,10 +83,10 @@ public class ColaboradorController {
                 viandasDonadas,
                 tarjetasRepartidas,
                 heladerasActivas);
-            context.json(viandasDonadas);
+
+            context.result("Puntos actualizados");
             context.status(HttpStatus.OK);
 
-            //context.result("Puntos actualizados");
             }
         catch (NoSuchElementException ex) {
             context.result(ex.getLocalizedMessage());
