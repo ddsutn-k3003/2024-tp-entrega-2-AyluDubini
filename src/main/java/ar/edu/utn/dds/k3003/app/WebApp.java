@@ -29,9 +29,9 @@ public class WebApp {
 
         app.post("/colaboradores", colaboradorController::agregar);
         app.get("/colaboradores/{id}", colaboradorController::obtener);
-        app.patch("/colaboradores/{id}",colaboradorController::cambiarForma);//revisar
+        app.patch("/colaboradores/{id}",colaboradorController::modificar);
         app.get("/colaboradores/{id}/puntos",colaboradorController::puntos);//revisar
-        app.put("/formula", colaboradorController::actualizarPuntos);//revisar
+        app.put("/formula", colaboradorController::actualizarPuntos);//anda pero hay que revisar los parámetros <double>
     }
 
     public static ObjectMapper createObjectMapper() {

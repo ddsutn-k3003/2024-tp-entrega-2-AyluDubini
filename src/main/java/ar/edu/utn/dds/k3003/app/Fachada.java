@@ -23,7 +23,6 @@ public class Fachada implements ar.edu.utn.dds.k3003.facades.FachadaColaboradore
     private Double heladerasActivasPeso;
     private FachadaViandas fachadaViandas;
     private FachadaLogistica fachadaLogistica;
-    private static AtomicLong seqId = new AtomicLong();
 
     public Fachada() {
         this.colaboradorRepository = new ColaboradorRepository();

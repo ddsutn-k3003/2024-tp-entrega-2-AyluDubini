@@ -27,6 +27,7 @@ public class ColaboradorController {
         var colaboradorDTORta = this.fachada.agregar(colaboradorDTO);
         context.json(colaboradorDTORta);
         context.status(HttpStatus.CREATED);
+        context.result("Colaborador agregado correctamente");
     }
 
     public void obtener(Context context) {
@@ -34,17 +35,21 @@ public class ColaboradorController {
         try {
             var colaboradorDTO = this.fachada.buscarXId(id);
             context.json(colaboradorDTO);
+            context.status(HttpStatus.FOUND);
+
         } catch (NoSuchElementException ex) {
             context.result(ex.getLocalizedMessage());
             context.status(HttpStatus.NOT_FOUND);
         }
     }
 
-    public void cambiarForma(Context context) { //revisar
+    public void modificar(Context context) { //revisar
         var id = context.pathParamAsClass("id", Long.class).get();
-        var forma = context.bodyAsClass(FormaDeColaborarEnum.class);
-        try{ var colaboradorDTO = this.fachada. modificar(id, List.of(forma));
+        var forma = context.bodyAsClass(FormaDeColaborarEnum.class);//(FormaDeColaborarEnum.class);
+        try{ var colaboradorDTO = this.fachada.modificar(id, List.of(forma));
         context.json(colaboradorDTO);
+            context.status(HttpStatus.OK);
+            context.result("Colaborador modificado correctamente");
         } catch (NoSuchElementException ex) {
             context.result(ex.getLocalizedMessage());
             context.status(HttpStatus.NOT_FOUND);
@@ -53,8 +58,9 @@ public class ColaboradorController {
 
     public void puntos(Context context) {
         var id = context.pathParamAsClass("id", Long.class).get();
-            try {var colaboradorDTO = this.fachada.puntos(id);
-            context.json(colaboradorDTO);
+            try {var puntosColaborador = this.fachada.puntos(id);
+            context.json(puntosColaborador);
+            context.status(HttpStatus.OK);
             } catch (NoSuchElementException ex) {
                 context.result(ex.getLocalizedMessage());
                 context.status(HttpStatus.NOT_FOUND);
@@ -62,16 +68,29 @@ public class ColaboradorController {
     }
 
     public void actualizarPuntos(Context context) {
-        ArrayList<Double> puntos = context.bodyAsClass(ArrayList.class);
-        Double pesosDonados = puntos.get(0);
-        Double viandasDistribuidas = puntos.get(1);
+        //ArrayList<Double> puntos = context.bodyStreamAsClass(ArrayList.class);
+        Double pesosDonados = context.attribute("pesosDonados");//puntos.get(0);
+        Double viandasDistribuidas = context.attribute("viandasDistribuidas");
+        Double viandasDonadas= context.attribute("viandasDonadas");
+        Double tarjetasRepartidas= context.attribute("tarjetasRepartidas");
+        Double heladerasActivas= context.attribute("heladerasActivas");
+        /*Double viandasDistribuidas = puntos.get(1);
         Double viandasDonadas= puntos.get(2);
         Double tarjetasRepartidas= puntos.get(3);
-        Double heladerasActivas= puntos.get(4);
-        this.fachada.actualizarPesosPuntos(pesosDonados,
+        Double heladerasActivas= puntos.get(4);*/
+        try {this.fachada.actualizarPesosPuntos(pesosDonados,
                 viandasDistribuidas,
                 viandasDonadas,
                 tarjetasRepartidas,
                 heladerasActivas);
+            context.json(viandasDonadas);
+            context.status(HttpStatus.OK);
+
+            //context.result("Puntos actualizados");
+            }
+        catch (NoSuchElementException ex) {
+            context.result(ex.getLocalizedMessage());
+            context.status(HttpStatus.NOT_ACCEPTABLE);//?
+        }
     }
 }

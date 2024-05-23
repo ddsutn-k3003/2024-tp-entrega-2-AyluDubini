@@ -11,6 +11,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -44,16 +45,25 @@ public class ViandasProxy implements FachadaViandas {
         return null;
     }
 
+    @SneakyThrows
     @Override
-    public List<ViandaDTO> viandasDeColaborador(Long aLong, Integer integer, Integer integer1)
-            throws NoSuchElementException {
-        return null;
+    public List<ViandaDTO> viandasDeColaborador(Long aLong, Integer integer, Integer integer1) throws NoSuchElementException{
+
+        Response<List<ViandaDTO>> execute = service.get(aLong, integer, integer1).execute();
+
+        if (execute.isSuccessful()) {
+        return execute.body();
+    }
+        if (execute.code() == HttpStatus.NOT_FOUND.getCode()) {
+        throw new NoSuchElementException("no se encontraron las viandas del colaborador " + aLong);
+    }
+        throw new RuntimeException("Error conectandose con el componente viandas");
     }
 
     @SneakyThrows
     @Override
-    public ViandaDTO buscarXQR(String qr) throws NoSuchElementException { return null;
-        /*Response<ViandaDTO> execute = service.get(qr).execute();
+    public ViandaDTO buscarXQR(String qr) throws NoSuchElementException {
+        Response<ViandaDTO> execute = service.get(qr).execute();
 
         if (execute.isSuccessful()) {
             return execute.body();
@@ -61,7 +71,7 @@ public class ViandasProxy implements FachadaViandas {
         if (execute.code() == HttpStatus.NOT_FOUND.getCode()) {
             throw new NoSuchElementException("no se encontro la vianda " + qr);
         }
-        throw new RuntimeException("Error conectandose con el componente viandas");*/
+        throw new RuntimeException("Error conectandose con el componente viandas");
     }
 
     @Override
