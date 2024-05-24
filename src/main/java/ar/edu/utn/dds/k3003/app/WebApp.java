@@ -19,8 +19,10 @@ public class WebApp {
         var env = System.getenv();
         var objectMapper = createObjectMapper();
         var fachada = new Fachada();
+
         fachada.setViandasProxy(new ViandasProxy(objectMapper));
         fachada.setLogisticaProxy(new LogisticaProxy(objectMapper));
+
         var port = Integer.parseInt(env.getOrDefault("PORT", "8080"));
 
         var app = Javalin.create().start(port);
@@ -30,8 +32,8 @@ public class WebApp {
         app.post("/colaboradores", colaboradorController::agregar);
         app.get("/colaboradores/{id}", colaboradorController::obtener);
         app.patch("/colaboradores/{id}",colaboradorController::modificar);
-        app.get("/colaboradores/{id}/puntos",colaboradorController::puntos);//revisar
-        app.put("/formula", colaboradorController::actualizarPuntos);//anda pero hay que revisar los parámetros <double>
+        app.get("/colaboradores/{id}/puntos",colaboradorController::puntos);
+        app.put("/formula", colaboradorController::actualizarPuntos);
     }
 
     public static ObjectMapper createObjectMapper() {

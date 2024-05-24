@@ -14,6 +14,4 @@ public interface ViandasRetrofitClient {
     Call<List<ViandaDTO>> get(@Query("colaboradorId") Long colaboradorId ,
                               @Query("mes") Integer mes,
                               @Query("anio") Integer anio);
-    @GET("viandas/{qr}")
-    Call<ViandaDTO> get(@Path("qr") String qr);
 }

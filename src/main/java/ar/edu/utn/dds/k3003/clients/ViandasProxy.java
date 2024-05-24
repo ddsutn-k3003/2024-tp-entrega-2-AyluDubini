@@ -11,7 +11,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -63,15 +62,7 @@ public class ViandasProxy implements FachadaViandas {
     @SneakyThrows
     @Override
     public ViandaDTO buscarXQR(String qr) throws NoSuchElementException {
-        Response<ViandaDTO> execute = service.get(qr).execute();
-
-        if (execute.isSuccessful()) {
-            return execute.body();
-        }
-        if (execute.code() == HttpStatus.NOT_FOUND.getCode()) {
-            throw new NoSuchElementException("no se encontro la vianda " + qr);
-        }
-        throw new RuntimeException("Error conectandose con el componente viandas");
+        return null;
     }
 
     @Override
